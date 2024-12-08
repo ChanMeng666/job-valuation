@@ -1,36 +1,82 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<div align="center">
+ <h1>Job Value Assessment Tool</h1>
+ <img src="https://img.shields.io/badge/Next.js-15.0.4-black?style=flat&logo=next.js" />
+ <img src="https://img.shields.io/badge/React-18.2.0-blue?style=flat&logo=react" />
+ <img src="https://img.shields.io/badge/TypeScript-5.0.0-blue?style=flat&logo=typescript" />
+ <img src="https://img.shields.io/badge/Tailwind-3.4.1-blue?style=flat&logo=tailwind-css" />
+ <img src="https://img.shields.io/badge/License-MIT-green?style=flat" />
+</div>
+
+A modern web application that helps professionals quantitatively evaluate their current job positions through a comprehensive assessment framework. Make data-driven career decisions by analyzing your job satisfaction across multiple dimensions.
+
+# Features
+
+### 🎯 Comprehensive Assessment Framework
+Evaluate your position across 10 key dimensions including time investment, skill match, compensation, growth potential, and work environment.
+
+### ⚖️ Scientific Scoring System
+Uses a weighted scoring system based on extensive research into job satisfaction and career development factors.
+
+### 📊 Visual Analytics
+View your results through intuitive charts and visualizations powered by Recharts, helping you understand your job's strengths and areas for improvement.
+
+### 🔄 Progress Tracking
+Save your assessments and track changes over time to monitor how your job satisfaction evolves.
+
+### 💼 Personalized Insights
+Receive tailored recommendations based on your assessment results to help guide your career decisions.
+
+### 🌐 Modern User Interface
+Clean, responsive design built with shadcn/ui components for a seamless user experience across all devices.
+
+## Tech Stack
+
+![Next JS](https://img.shields.io/badge/Next.js-black?style=for-the-badge&logo=next.js&logoColor=white)
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)
 
 ## Getting Started
 
-First, run the development server:
+First, install dependencies:
+
+```bash
+npm install
+# or
+yarn install
+```
+
+Then, run the development server:
 
 ```bash
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+job-valuation/
+├── src/
+│   ├── app/          # Next.js app router pages
+│   ├── components/   # Reusable UI components
+│   ├── lib/          # Utility functions
+│   ├── store/        # State management
+│   └── types/        # TypeScript definitions
+├── public/           # Static assets
+└── ...config files
+```
 
 ## Deploy on Vercel
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+## License
+
+This project is licensed under the [Apache-2.0 license](LICENSE).
