@@ -31,7 +31,7 @@ const MovingBackground = () => {
             {Array.from({ length: itemsPerRow }).map((_, colIndex) => (
               <span 
                 key={colIndex} 
-                className="inline-block text-5xl opacity-[0.15] select-none"
+                className="inline-block text-5xl opacity-[0.5] select-none"
                 style={{
                   padding: '1.25rem 1.25rem',
                 }}
