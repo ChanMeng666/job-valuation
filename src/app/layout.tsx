@@ -17,6 +17,9 @@ const geistMono = localFont({
 export const metadata: Metadata = {
   title: "Job Valuation",
   description: "Evaluate your job's value comprehensively",
+  icons: {
+    icon: '/logo.svg',
+  },
 };
 
 export default function RootLayout({

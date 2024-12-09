@@ -4,6 +4,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button'
 import { useRouter } from 'next/navigation'
 import { useAssessmentStore } from '@/store/assessment'
+import Image from 'next/image'
+
 
 export default function AssessmentStartPage() {
   const router = useRouter()
@@ -18,6 +20,16 @@ export default function AssessmentStartPage() {
     <div className="container flex h-screen w-screen flex-col items-center justify-center">
       <Card className="w-full max-w-2xl">
         <CardHeader className="space-y-1">
+          {/* 添加logo */}
+          <div className="flex justify-center mb-4">
+            <Image
+              src="/logo.svg"
+              alt="Logo"
+              width={100}
+              height={100}
+              priority
+            />
+          </div>
           <CardTitle className="text-2xl text-center">开始您的工作评估</CardTitle>
           <CardDescription className="text-center">
             通过回答一系列问题，帮助您客观评估当前工作
