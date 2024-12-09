@@ -14,9 +14,9 @@ const MovingBackground = () => {
         key={key}
         className="absolute w-full h-full"
         style={{
-          transform: `translateY(${key * 98}%)`,
-          marginTop: key === 0 ? '0' : '-2%',
-          height: '102%',
+          transform: `translateY(${key * 100}%)`,
+          marginTop: key === 0 ? '0' : '0',
+          height: '100%',
         }}
       >
         {Array.from({ length: rows }).map((_, rowIndex) => (
@@ -46,12 +46,17 @@ const MovingBackground = () => {
   };
 
   return (
-    <div className="fixed inset-0 w-full h-full overflow-hidden pointer-events-none z-0 bg-gradient-to-br from-slate-100 via-white to-slate-100 dark:from-slate-900 dark:via-gray-900 dark:to-slate-900">
+    <div className="fixed inset-0 w-screen h-screen overflow-hidden pointer-events-none z-0 bg-gradient-to-br from-slate-100 via-white to-slate-100 dark:from-slate-900 dark:via-gray-900 dark:to-slate-900">
       <div 
         className="absolute w-[400%] h-[400%] slow-bg-scroll"
         style={{
           transformStyle: 'preserve-3d',
-          backfaceVisibility: 'hidden'
+          backfaceVisibility: 'hidden',
+          transform: 'translate(-25%, -25%) rotate(45deg)',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0
         }}
       >
         <div className="relative w-full h-full">
