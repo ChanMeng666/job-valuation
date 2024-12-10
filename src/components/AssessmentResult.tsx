@@ -19,7 +19,7 @@ import {
 
 export function AssessmentResult() {
   const { scores } = useAssessmentStore();
-  const result = calculateScore(scores);
+  const result = calculateScore(scores, basicInfo);
 
   const radarData = Object.entries(result.dimensionScores).map(
     ([key, value]) => ({
