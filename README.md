@@ -9,6 +9,7 @@
 
 A modern web application that helps professionals quantitatively evaluate their current job positions through a comprehensive assessment framework. Make data-driven career decisions by analyzing your job satisfaction across multiple dimensions.
 
+# Version 1.0.0
 ![screencapture-job-valuation-vercel-app-assessment-start-2024-12-08-20_34_17](https://github.com/user-attachments/assets/67e0705f-be83-4b35-9b4e-558af411efbf)
 
 ![screencapture-job-valuation-vercel-app-assessment-basic-2024-12-08-20_34_26](https://github.com/user-attachments/assets/d490773d-1a12-4c56-a851-5ba36c561e19)
@@ -16,6 +17,14 @@ A modern web application that helps professionals quantitatively evaluate their 
 ![screencapture-job-valuation-vercel-app-assessment-time-skill-2024-12-08-20_34_47](https://github.com/user-attachments/assets/5a38727a-5159-4a06-a9d9-30f95bec2554)
 
 ![screencapture-job-valuation-vercel-app-assessment-result-2024-12-08-20_35_07](https://github.com/user-attachments/assets/994912f0-cdb7-497c-b30c-778bd8b7aa69)
+
+# Version 2.0.0
+![screencapture-job-valuation-vercel-app-assessment-start-2024-12-10-16_30_15](https://github.com/user-attachments/assets/ad77581b-ba95-422d-8d1a-9e84af1e60c3)
+
+![screencapture-job-valuation-vercel-app-assessment-basic-2024-12-10-16_30_36](https://github.com/user-attachments/assets/5be37b30-d8dc-4f90-ac0c-f3ec15d9d918)
+
+![screencapture-job-valuation-vercel-app-assessment-result-2024-12-10-16_33_04](https://github.com/user-attachments/assets/e09672a0-be2f-46d9-94f2-fde21028b050)
+
 
 # Features
 
