@@ -9,7 +9,7 @@ import { useAssessmentStore } from '@/store/assessment';
 
 export default function AssessmentPage() {
   const [showResult, setShowResult] = useState(false);
-  const { scores, resetAssessment } = useAssessmentStore();
+  const { resetAssessment } = useAssessmentStore();
 
   const handleSubmit = () => {
     setShowResult(true);

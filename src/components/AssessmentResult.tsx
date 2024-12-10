@@ -1,5 +1,4 @@
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Progress } from '@/components/ui/progress';
 import { DIMENSIONS, calculateScore } from '@/types/assessment';
 import { useAssessmentStore } from '@/store/assessment';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
