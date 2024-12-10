@@ -399,15 +399,15 @@ export function calculateScore(results: Record<string, number>): AssessmentResul
 
   // 生成建议
   const suggestions = Object.entries(dimensionScores)
-    .filter(([_, score]) => score < 6)
-    .map(([dimensionId, score]) => {
-      const dimension = DIMENSIONS.find(d => d.id === dimensionId);
-      return {
-        dimension: dimension?.title || dimensionId,
-        score,
-        suggestion: generateSuggestion(dimensionId, score)
-      };
-    });
+  .filter(([_, score]) => score < 6)
+  .map(([dimensionId, score]) => {
+    const dimension = DIMENSIONS.find(d => d.id === dimensionId);
+    return {
+      dimension: dimension?.title || dimensionId,
+      score,
+      suggestion: generateSuggestion(dimensionId)
+    };
+  });
 
   return {
     dimensionScores,
@@ -422,11 +422,17 @@ export function calculateScore(results: Record<string, number>): AssessmentResul
 function generateSuggestion(dimensionId: string): string {
   // 根据维度和得分生成具体建议
   const suggestions: Record<string, string> = {
-    time_investment: "建议与管理层沟通工作时间安排，寻求更好的工作生活平衡",
-    work_efficiency: "考虑采用更高效的工作方法，合理规划任务时间",
-    skill_match: "建议制定个人技能提升计划，持续学习相关技能",
-    compensation: "建议在年度绩效考核时与主管讨论薪资调整空间"
+    'time_investment': '建议与管理层沟通工作时间安排，寻求更好的工作生活平衡',
+    'skill_match': '建议制定个人技能提升计划，持续学习相关技能',
+    'work_intensity': '建议与团队和主管沟通工作强度问题，寻找更合理的任务分配方式',
+    'salary_satisfaction': '建议在年度绩效考核时与主管讨论薪资调整空间',
+    'growth_potential': '建议主动寻找项目机会，拓展个人技能和经验',
+    'career_development': '建议制定清晰的职业发展规划，与主管讨论晋升路径',
+    'work_environment': '建议与人力资源部门沟通改善工作环境的建议',
+    'team_relationship': '建议多参与团队活动，加强与同事的沟通和协作',
+    'work_autonomy': '建议与主管沟通增加工作自主权的可能性',
+    'value_alignment': '建议深入了解公司文化和发展战略，找到个人价值的契合点'
   };
   
-  return suggestions[dimensionId] || "建议进行深入分析并制定改进计划";
+  return suggestions[dimensionId] || '建议进行深入分析并制定改进计划';
 }
