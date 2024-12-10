@@ -370,11 +370,11 @@ export const DIMENSIONS: Dimension[] = [
   // ... 其他维度定义
 ];
 
-export function calculateScore(results: Record<string, number>): AssessmentResult {
+export function calculateScore(scores: Record<string, number>, basicInfo: BasicInfo): AssessmentResult {
   // 计算各维度得分
   const dimensionScores: Record<string, number> = {};
   DIMENSIONS.forEach(dimension => {
-    const dimensionMetrics = dimension.metrics.map(m => results[m.id] || 0);
+    const dimensionMetrics = dimension.metrics.map(m => scores[m.id] || 0);
     const average = dimensionMetrics.reduce((a, b) => a + b, 0) / dimensionMetrics.length;
     dimensionScores[dimension.id] = average;
   });
@@ -399,17 +399,18 @@ export function calculateScore(results: Record<string, number>): AssessmentResul
 
   // 生成建议
   const suggestions = Object.entries(dimensionScores)
-  .filter(([_, score]) => score < 6)
-  .map(([dimensionId, score]) => {
-    const dimension = DIMENSIONS.find(d => d.id === dimensionId);
-    return {
-      dimension: dimension?.title || dimensionId,
-      score,
-      suggestion: generateSuggestion(dimensionId)
-    };
-  });
+    .filter(([_, score]) => score < 6)
+    .map(([dimensionId, score]) => {
+      const dimension = DIMENSIONS.find(d => d.id === dimensionId);
+      return {
+        dimension: dimension?.title || dimensionId,
+        score,
+        suggestion: generateSuggestion(dimensionId)
+      };
+    });
 
   return {
+    basicInfo,
     dimensionScores,
     categoryScores,
     balanceScore,

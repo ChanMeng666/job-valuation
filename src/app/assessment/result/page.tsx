@@ -189,6 +189,7 @@ export default function ResultPage() {
   const router = useRouter()
   const { 
     scores, 
+    basicInfo,
     currentResult,
     setResult,
     addToHistory,
@@ -201,16 +202,16 @@ export default function ResultPage() {
       return
     }
 
-    const result = calculateScore(scores)
+    const result = calculateScore(scores, basicInfo)
     setResult(result)
     
     // 添加到历史记录
     addToHistory({
-      id: Date.now().toString(),
       ...result,
+      id: Date.now().toString(),
       date: new Date().toISOString(),
     })
-  }, [scores, router, setResult, addToHistory])
+  }, [scores, basicInfo, router, setResult, addToHistory])
 
   const handleStartOver = () => {
     resetAssessment()
