@@ -1,52 +1,191 @@
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Progress } from '@/components/ui/progress';
-import { DIMENSIONS, Score, calculateScore } from '@/types/assessment';
+import { DIMENSIONS, calculateScore } from '@/types/assessment';
+import { useAssessmentStore } from '@/store/assessment';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  RadarChart,
+  PolarGrid,
+  PolarAngleAxis,
+  PolarRadiusAxis,
+  Radar,
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+} from 'recharts';
 
-interface Props {
-  scores: Score[];
-}
+export function AssessmentResult() {
+  const { scores } = useAssessmentStore();
+  const result = calculateScore(scores);
 
-export function AssessmentResult({ scores }: Props) {
-  const finalScore = calculateScore(scores);
-  
+  const radarData = Object.entries(result.dimensionScores).map(
+    ([key, value]) => ({
+      dimension: DIMENSIONS.find(d => d.id === key)?.title || key,
+      value
+    })
+  );
+
+  const categoryData = Object.entries(result.categoryScores).map(
+    ([key, value]) => ({
+      category: key,
+      value: parseFloat(value.toFixed(1))
+    })
+  );
+
   const getScoreLevel = (score: number) => {
-    if (score >= 90) return { title: '极优质工作', description: '继续保持，这份工作非常适合你' };
-    if (score >= 80) return { title: '优质工作', description: '工作质量良好，仍有提升空间' };
-    if (score >= 70) return { title: '良好工作', description: '工作基本令人满意，建议关注改进点' };
-    if (score >= 60) return { title: '一般工作', description: '工作尚可接受，需要积极改善' };
-    return { title: '建议考虑换工作', description: '当前工作可能不太适合你，建议寻找新的机会' };
+    if (score >= 90) return { 
+      title: '极优质工作', 
+      color: 'text-green-600',
+      description: '当前工作非常适合你，建议继续保持'
+    };
+    if (score >= 80) return { 
+      title: '优质工作', 
+      color: 'text-blue-600',
+      description: '工作质量良好，仍有提升空间'
+    };
+    if (score >= 70) return { 
+      title: '良好工作', 
+      color: 'text-yellow-600',
+      description: '工作基本满意，需要关注改进空间'
+    };
+    if (score >= 60) return { 
+      title: '一般工作', 
+      color: 'text-orange-600',
+      description: '建议积极寻找改进机会'
+    };
+    return { 
+      title: '不太适合', 
+      color: 'text-red-600',
+      description: '建议慎重考虑是否需要调整工作'
+    };
   };
 
-  const level = getScoreLevel(finalScore);
+  const overallScore = (result.balanceScore + result.matchScore) / 2;
+  const { title: levelText, color: levelColor, description: levelDescription } = 
+    getScoreLevel(overallScore);
 
   return (
     <div className="space-y-6">
-      <div className="space-y-2">
-        <h3 className="text-xl font-semibold">总体评分</h3>
-        <Progress value={finalScore} className="h-4" />
-        <p className="text-right">{Math.round(finalScore)} / 100</p>
+      <div className="grid gap-4 md:grid-cols-3">
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg">综合得分</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold text-center">
+              {overallScore.toFixed(1)}
+            </div>
+            <div className={`text-center font-medium ${levelColor}`}>
+              {levelText}
+            </div>
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg">付出与回报平衡度</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold text-center">
+              {result.balanceScore.toFixed(1)}
+            </div>
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg">岗位匹配度</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold text-center">
+              {result.matchScore.toFixed(1)}
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
       <Alert>
-        <AlertTitle>{level.title}</AlertTitle>
-        <AlertDescription>{level.description}</AlertDescription>
+        <AlertTitle>评估结论</AlertTitle>
+        <AlertDescription>{levelDescription}</AlertDescription>
       </Alert>
 
-      <div className="space-y-4">
-        <h3 className="text-lg font-semibold">各维度得分</h3>
-        {DIMENSIONS.map((dimension) => {
-          const score = scores.find(s => s.dimensionId === dimension.id)?.score || 0;
-          return (
-            <div key={dimension.id} className="space-y-2">
-              <div className="flex justify-between">
-                <span>{dimension.title}</span>
-                <span>{score} × {dimension.weight}</span>
-              </div>
-              <Progress value={score * 10} className="h-2" />
-            </div>
-          );
-        })}
+      <div className="grid gap-6 md:grid-cols-2">
+        <Card>
+          <CardHeader>
+            <CardTitle>维度分析</CardTitle>
+          </CardHeader>
+          <CardContent className="h-80">
+            <ResponsiveContainer width="100%" height="100%">
+              <RadarChart data={radarData}>
+                <PolarGrid />
+                <PolarAngleAxis 
+                  dataKey="dimension"
+                  tick={{ fill: '#888', fontSize: 12 }}
+                />
+                <PolarRadiusAxis angle={30} domain={[0, 10]} />
+                <Radar
+                  name="得分"
+                  dataKey="value"
+                  stroke="#2563eb"
+                  fill="#2563eb"
+                  fillOpacity={0.6}
+                />
+              </RadarChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>类别分析</CardTitle>
+          </CardHeader>
+          <CardContent className="h-80">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={categoryData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis 
+                  dataKey="category"
+                  tick={{ fill: '#888', fontSize: 12 }}
+                />
+                <YAxis domain={[0, 10]} />
+                <Tooltip />
+                <Bar 
+                  dataKey="value" 
+                  fill="#2563eb"
+                  radius={[4, 4, 0, 0]}
+                />
+              </BarChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
       </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>改进建议</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {result.suggestions.map((suggestion, index) => (
+              <div key={index} className="flex items-start space-x-4">
+                <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                  {index + 1}
+                </div>
+                <div>
+                  <h4 className="font-medium">{suggestion.dimension}</h4>
+                  <p className="text-sm text-muted-foreground">
+                    {suggestion.suggestion}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }

@@ -2,29 +2,11 @@ import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { DIMENSIONS, Score } from '@/types/assessment';
+import { useAssessmentStore } from '@/store/assessment';
+import { DIMENSIONS } from '@/types/assessment';
 
-interface Props {
-  onScoreChange: (scores: Score[]) => void;
-}
-
-export function AssessmentForm({ onScoreChange }: Props) {
-  const [scores, setScores] = React.useState<Score[]>([]);
-
-  const handleScoreChange = (dimensionId: string, questionId: string, value: string) => {
-    const newScores = [...scores];
-    const scoreIndex = newScores.findIndex(s => s.dimensionId === dimensionId);
-    const score = Number(value);
-
-    if (scoreIndex === -1) {
-      newScores.push({ dimensionId, score });
-    } else {
-      newScores[scoreIndex].score = score;
-    }
-
-    setScores(newScores);
-    onScoreChange(newScores);
-  };
+export function AssessmentForm() {
+  const { scores, setScore } = useAssessmentStore();
 
   return (
     <div className="space-y-8">
@@ -35,17 +17,18 @@ export function AssessmentForm({ onScoreChange }: Props) {
               <h3 className="text-lg font-semibold">
                 {dimension.title} (权重: {dimension.weight})
               </h3>
-              {dimension.questions.map((question) => (
-                <div key={question.id} className="space-y-2">
-                  <Label>{question.text}</Label>
+              {dimension.metrics.map((metric) => (
+                <div key={metric.id} className="space-y-2">
+                  <Label>{metric.title}</Label>
                   <RadioGroup
-                    onValueChange={(value) => handleScoreChange(dimension.id, question.id, value)}
+                    onValueChange={(value) => setScore(metric.id, parseInt(value))}
+                    value={scores[metric.id]?.toString()}
                     className="flex space-x-4"
                   >
                     {[0,1,2,3,4,5,6,7,8,9,10].map((value) => (
                       <div key={value} className="flex items-center space-x-2">
-                        <RadioGroupItem value={value.toString()} id={`${question.id}-${value}`} />
-                        <Label htmlFor={`${question.id}-${value}`}>{value}</Label>
+                        <RadioGroupItem value={value.toString()} id={`${metric.id}-${value}`} />
+                        <Label htmlFor={`${metric.id}-${value}`}>{value}</Label>
                       </div>
                     ))}
                   </RadioGroup>

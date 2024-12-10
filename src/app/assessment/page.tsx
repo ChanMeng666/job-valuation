@@ -3,20 +3,20 @@
 import { useState } from 'react';
 import { AssessmentForm } from '@/components/AssessmentForm';
 import { AssessmentResult } from '@/components/AssessmentResult';
-import { Score } from '@/types/assessment';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { useAssessmentStore } from '@/store/assessment';
 
 export default function AssessmentPage() {
-  const [scores, setScores] = useState<Score[]>([]);
   const [showResult, setShowResult] = useState(false);
+  const { scores, resetAssessment } = useAssessmentStore();
 
   const handleSubmit = () => {
     setShowResult(true);
   };
 
   const handleReset = () => {
-    setScores([]);
+    resetAssessment();
     setShowResult(false);
   };
 
@@ -26,7 +26,7 @@ export default function AssessmentPage() {
       
       {!showResult ? (
         <>
-          <AssessmentForm onScoreChange={setScores} />
+          <AssessmentForm />
           <div className="mt-6 flex justify-end space-x-4">
             <Button variant="outline" onClick={handleReset}>重置</Button>
             <Button onClick={handleSubmit}>提交评估</Button>
@@ -34,7 +34,7 @@ export default function AssessmentPage() {
         </>
       ) : (
         <Card className="p-6">
-          <AssessmentResult scores={scores} />
+          <AssessmentResult />
           <div className="mt-6 flex justify-end">
             <Button variant="outline" onClick={handleReset}>重新评估</Button>
           </div>
