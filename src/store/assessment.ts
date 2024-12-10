@@ -112,7 +112,7 @@
 
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { AssessmentResult, HistoricalAssessment } from '@/types/assessment';
+import { AssessmentResult, BasicInfo } from '@/types/assessment';
 
 interface JobInfo {
   title: string;
@@ -123,7 +123,7 @@ interface JobInfo {
 
 interface AssessmentState {
   // 基本信息
-  jobInfo: JobInfo;
+  basicInfo: BasicInfo;
   
   // 评分记录
   scores: Record<string, number>;
@@ -135,15 +135,15 @@ interface AssessmentState {
   currentResult: AssessmentResult | null;
   
   // 历史记录
-  history: HistoricalAssessment[];
+  history: Array<AssessmentResult>;
   
   // Actions
-  setJobInfo: (info: JobInfo) => void;
+  setBasicInfo: (info: Partial<BasicInfo>) => void;
   setScore: (metricId: string, score: number) => void;
   nextStep: () => void;
   previousStep: () => void;
   setResult: (result: AssessmentResult) => void;
-  addToHistory: (assessment: HistoricalAssessment) => void;
+  addToHistory: (assessment: AssessmentResult) => void;
   resetAssessment: () => void;
 }
 
@@ -151,11 +151,15 @@ export const useAssessmentStore = create<AssessmentState>()(
   persist(
     (set) => ({
       // 初始状态
-      jobInfo: {
-        title: '',
-        company: '',
+      basicInfo: {
+        ageGroup: '',
+        education: '',
+        experience: '',
+        cityTier: '',
         industry: '',
-        experience: ''
+        jobCategory: '',
+        jobLevel: '',
+        jobType: ''
       },
       scores: {},
       currentStep: 0,
@@ -163,8 +167,13 @@ export const useAssessmentStore = create<AssessmentState>()(
       history: [],
 
       // Actions
-      setJobInfo: (info) => set({ jobInfo: info }),
-      
+      setBasicInfo: (info) => set((state) => ({
+        basicInfo: {
+          ...state.basicInfo,
+          ...info
+        }
+      })),
+
       setScore: (metricId, score) => set((state) => ({
         scores: {
           ...state.scores,
@@ -189,11 +198,15 @@ export const useAssessmentStore = create<AssessmentState>()(
       })),
       
       resetAssessment: () => set({
-        jobInfo: {
-          title: '',
-          company: '',
+        basicInfo: {
+          ageGroup: '',
+          education: '',
+          experience: '',
+          cityTier: '',
           industry: '',
-          experience: ''
+          jobCategory: '',
+          jobLevel: '',
+          jobType: ''
         },
         scores: {},
         currentStep: 0,

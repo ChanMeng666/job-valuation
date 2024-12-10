@@ -54,6 +54,105 @@
 // };
 
 
+
+
+
+// 基本信息相关类型
+export interface PersonalInfo {
+  ageGroup: string;
+  education: string;
+  experience: string;
+  cityTier: string;
+}
+
+export interface JobInfo {
+  industry: string;
+  jobCategory: string;
+  jobLevel: string;
+  jobType: string;
+}
+
+export interface BasicInfo extends PersonalInfo, JobInfo {}
+
+// 选项常量
+export const AGE_GROUPS = [
+  '25岁以下',
+  '25-30岁',
+  '31-35岁',
+  '36-40岁',
+  '41-45岁',
+  '45岁以上'
+] as const;
+
+export const EDUCATION_LEVELS = [
+  '高中/中专',
+  '大专',
+  '本科',
+  '硕士',
+  '博士',
+  '其他'
+] as const;
+
+export const EXPERIENCE_LEVELS = [
+  '1年以下',
+  '1-3年',
+  '3-5年',
+  '5-10年',
+  '10年以上'
+] as const;
+
+export const CITY_TIERS = [
+  '一线城市',
+  '新一线城市',
+  '二线城市',
+  '三线城市',
+  '其他'
+] as const;
+
+export const INDUSTRIES = [
+  '互联网/IT',
+  '金融/银行/保险',
+  '教育培训',
+  '医疗健康',
+  '房地产/建筑',
+  '制造业',
+  '文化传媒',
+  '商业服务',
+  '消费零售',
+  '其他'
+] as const;
+
+export const JOB_CATEGORIES = [
+  '技术/研发',
+  '产品',
+  '设计',
+  '运营',
+  '市场/营销',
+  '销售',
+  '人力资源',
+  '财务',
+  '行政',
+  '其他'
+] as const;
+
+export const JOB_LEVELS = [
+  '初级/助理',
+  '中级',
+  '高级',
+  '专家/资深',
+  '经理/主管',
+  '总监',
+  'C级/VP'
+] as const;
+
+export const JOB_TYPES = [
+  '全职',
+  '兼职',
+  '实习',
+  '自由职业',
+  '其他'
+] as const;
+
 export interface Level {
   score: number;
   description: string;
@@ -85,6 +184,7 @@ export interface CategoryScore {
 }
 
 export interface AssessmentResult {
+  basicInfo: BasicInfo;
   dimensionScores: Record<string, number>;
   categoryScores: Record<string, number>;
   balanceScore: number;
