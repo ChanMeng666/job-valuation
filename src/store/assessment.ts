@@ -114,12 +114,6 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { AssessmentResult, BasicInfo } from '@/types/assessment';
 
-interface JobInfo {
-  title: string;
-  company: string;
-  industry: string;
-  experience: string;
-}
 
 interface AssessmentState {
   // 基本信息
