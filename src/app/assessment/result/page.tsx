@@ -207,7 +207,7 @@ export default function ResultPage() {
     // 添加到历史记录
     addToHistory({
       id: Date.now().toString(),
-      result,
+      ...result,
       date: new Date().toISOString(),
     })
   }, [scores, router, setResult, addToHistory])

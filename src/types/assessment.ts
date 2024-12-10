@@ -184,6 +184,8 @@ export interface CategoryScore {
 }
 
 export interface AssessmentResult {
+  id?: string;
+  date?: string;
   basicInfo: BasicInfo;
   dimensionScores: Record<string, number>;
   categoryScores: Record<string, number>;
