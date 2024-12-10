@@ -417,7 +417,7 @@ export function calculateScore(results: Record<string, number>): AssessmentResul
   };
 }
 
-function generateSuggestion(dimensionId: string, currentScore: number): string {
+function generateSuggestion(dimensionId: string): string {
   // 根据维度和得分生成具体建议
   const suggestions: Record<string, string> = {
     time_investment: "建议与管理层沟通工作时间安排，寻求更好的工作生活平衡",

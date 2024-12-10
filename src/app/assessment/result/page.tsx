@@ -189,7 +189,6 @@ export default function ResultPage() {
   const router = useRouter()
   const { 
     scores, 
-    jobInfo, 
     currentResult,
     setResult,
     addToHistory,
@@ -210,9 +209,8 @@ export default function ResultPage() {
       id: Date.now().toString(),
       result,
       date: new Date().toISOString(),
-      jobInfo
     })
-  }, [scores, jobInfo, router, setResult, addToHistory])
+  }, [scores, router, setResult, addToHistory])
 
   const handleStartOver = () => {
     resetAssessment()
