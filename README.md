@@ -23,6 +23,8 @@ A modern web application that helps professionals quantitatively evaluate their 
 
 ![screencapture-job-valuation-vercel-app-assessment-basic-2024-12-10-16_30_36](https://github.com/user-attachments/assets/5be37b30-d8dc-4f90-ac0c-f3ec15d9d918)
 
+![screencapture-job-valuation-vercel-app-assessment-evaluation-2024-12-10-16_32_17](https://github.com/user-attachments/assets/1ec020a0-152d-40a2-afe5-321548d07f5e)
+
 ![screencapture-job-valuation-vercel-app-assessment-result-2024-12-10-16_33_04](https://github.com/user-attachments/assets/e09672a0-be2f-46d9-94f2-fde21028b050)
 
 
