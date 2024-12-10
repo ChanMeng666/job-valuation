@@ -18,7 +18,12 @@ import {
 } from 'recharts';
 
 export function AssessmentResult() {
-  const { scores } = useAssessmentStore();
+  const { scores, basicInfo } = useAssessmentStore();
+  // 添加空值检查
+  if (!scores || !basicInfo) {
+    return null; // 或者显示一个加载状态/错误提示
+  }
+
   const result = calculateScore(scores, basicInfo);
 
   const radarData = Object.entries(result.dimensionScores).map(
