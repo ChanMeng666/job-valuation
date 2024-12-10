@@ -212,7 +212,7 @@ export default function ResultPage() {
       date: new Date().toISOString(),
       jobInfo
     })
-  }, [])
+  }, [scores, jobInfo, router, setResult, addToHistory])
 
   const handleStartOver = () => {
     resetAssessment()
