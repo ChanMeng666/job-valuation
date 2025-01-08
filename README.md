@@ -9,6 +9,11 @@
 
 A modern web application that helps professionals quantitatively evaluate their current job positions through a comprehensive assessment framework. Make data-driven career decisions by analyzing your job satisfaction across multiple dimensions.
 
+<br/>
+
+[![Explore GitHub Profile README Generator](https://gradient-svg-generator.vercel.app/?text=👉+Try+It+Now!+👈&height=40&template=pride-rainbow)](https://job-valuation.vercel.app/assessment/start)
+
+<br/>
 
 https://github.com/user-attachments/assets/a350e2cf-daf8-4d58-9cdd-1403e89d10fb
 
