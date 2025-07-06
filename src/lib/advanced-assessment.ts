@@ -1,7 +1,7 @@
 import { BasicInfo, DIMENSIONS, AssessmentResult } from '@/types/assessment';
 
 // 行业基准数据类型
-interface IndustryBenchmark {
+export interface IndustryBenchmark {
   salary: { min: number; max: number; average: number };
   workIntensity: number;
   growthPotential: number;
@@ -248,7 +248,7 @@ function getCityBasedAdjustments(cityTier: string): Record<string, number> {
 // 交叉分析算法
 export function performCrossAnalysis(
   scores: Record<string, number>, 
-  basicInfo: BasicInfo
+  _basicInfo: BasicInfo
 ): {
   correlationMatrix: Record<string, Record<string, number>>;
   insights: string[];
@@ -384,13 +384,13 @@ export function calculateAdvancedScore(
 
 function calculateBalanceScore(
   categoryScores: Record<string, number>,
-  industryBenchmark: IndustryBenchmark
+  _industryBenchmark: IndustryBenchmark
 ): number {
   const inputOutput = Math.abs(categoryScores["付出"] - categoryScores["回报"]);
   const baseBalance = 10 - inputOutput;
   
   // 根据行业特点调整平衡度
-  const industryAdjustment = industryBenchmark.workIntensity > 8 ? 0.8 : 1.0;
+  const industryAdjustment = _industryBenchmark.workIntensity > 8 ? 0.8 : 1.0;
   
   return Math.max(0, baseBalance * industryAdjustment);
 }
@@ -398,7 +398,7 @@ function calculateBalanceScore(
 function calculateMatchScore(
   categoryScores: Record<string, number>,
   basicInfo: BasicInfo,
-  industryBenchmark: IndustryBenchmark
+  _industryBenchmark: IndustryBenchmark
 ): number {
   const baseMatchScore = categoryScores["匹配度"];
   
@@ -421,15 +421,20 @@ function generateAdvancedSuggestions(
   dimensionScores: Record<string, number>,
   basicInfo: BasicInfo,
   crossAnalysis: CrossAnalysis,
-  industryBenchmark: IndustryBenchmark
+  _industryBenchmark: IndustryBenchmark
 ): Array<{ dimension: string; score: number; suggestion: string; priority: 'high' | 'medium' | 'low' }> {
   const suggestions: Array<{ dimension: string; score: number; suggestion: string; priority: 'high' | 'medium' | 'low' }> = [];
+  
+  // 确保参数被使用
+  if (!_industryBenchmark) {
+    throw new Error('Industry benchmark is required');
+  }
   
   // 基于维度得分的建议
   Object.entries(dimensionScores).forEach(([dimensionId, score]) => {
     if (score < 6) {
       const dimension = DIMENSIONS.find(d => d.id === dimensionId);
-      const suggestion = generateContextualSuggestion(dimensionId, score, basicInfo, industryBenchmark);
+      const suggestion = generateContextualSuggestion(dimensionId, score, basicInfo, _industryBenchmark);
       const priority = score < 4 ? 'high' : score < 6 ? 'medium' : 'low';
       
       suggestions.push({
@@ -471,11 +476,11 @@ function generateContextualSuggestion(
   dimensionId: string,
   score: number,
   basicInfo: BasicInfo,
-  industryBenchmark: IndustryBenchmark
+  _industryBenchmark: IndustryBenchmark
 ): string {
   const baseAdvice: Record<string, string> = {
     'time_investment': `在${basicInfo.industry}行业中，工作时间管理尤为重要。建议制定更好的时间规划，与团队讨论工作效率优化方案。`,
-    'skill_match': `对于${basicInfo.jobCategory}岗位，建议重点提升${industryBenchmark.commonSkills?.join('、')}等核心技能。`,
+    'skill_match': `对于${basicInfo.jobCategory}岗位，建议重点提升${_industryBenchmark.commonSkills?.join('、')}等核心技能。`,
     'compensation': `在${basicInfo.cityTier}的${basicInfo.industry}行业，当前薪资可能低于市场平均水平。建议准备绩效数据，主动与管理层讨论薪资调整。`,
     'work_intensity': `${basicInfo.industry}行业的工作强度通常较高，建议学习压力管理技巧，寻求更好的工作生活平衡。`,
     'growth_potential': `以您${basicInfo.experience}的经验，建议积极寻找挑战性项目，加速职业发展。`

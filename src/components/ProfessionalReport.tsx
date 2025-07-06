@@ -93,13 +93,13 @@ export function ProfessionalReport({ result }: ProfessionalReportProps) {
     }
   };
 
-  const getScoreColor = (score: number) => {
+  const _getScoreColor = (score: number) => {
     if (score >= 8) return 'text-green-600';
     if (score >= 6) return 'text-yellow-600';
     return 'text-red-600';
   };
 
-  const getScoreLevel = (score: number) => {
+  const _getScoreLevel = (score: number) => {
     if (score >= 8) return '优秀';
     if (score >= 6) return '良好';
     if (score >= 4) return '一般';
@@ -419,10 +419,10 @@ function getOverallAssessment(result: AssessmentResult): string {
 }
 
 function generateSWOTAnalysis(result: AssessmentResult) {
-  const strengths = [];
-  const weaknesses = [];
-  const opportunities = [];
-  const threats = [];
+  const strengths: string[] = [];
+  const weaknesses: string[] = [];
+  const opportunities: string[] = [];
+  const threats: string[] = [];
 
   // 基于维度得分分析
   Object.entries(result.dimensionScores).forEach(([dimensionId, score]) => {
