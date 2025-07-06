@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import MovingBackground from "../components/ui/moving-background";
+import { ThemeProvider } from "@/components/ThemeProvider";
+import { Navbar } from "@/components/Navbar";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -30,10 +32,13 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen relative`}>
-        <MovingBackground />
-        <div className="relative z-10">
-          {children}
-        </div>
+        <ThemeProvider defaultTheme="light" storageKey="job-valuation-theme">
+          <MovingBackground />
+          <Navbar />
+          <div className="relative z-10 pt-16">
+            {children}
+          </div>
+        </ThemeProvider>
       </body>
     </html>
   );

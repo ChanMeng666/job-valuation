@@ -1,7 +1,9 @@
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { DIMENSIONS, calculateScore } from '@/types/assessment';
+import { DIMENSIONS } from '@/types/assessment';
+import { calculateAdvancedScore } from '@/lib/advanced-assessment';
 import { useAssessmentStore } from '@/store/assessment';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { ProfessionalReport } from './ProfessionalReport';
 import {
   RadarChart,
   PolarGrid,
@@ -24,7 +26,7 @@ export function AssessmentResult() {
     return null; // 或者显示一个加载状态/错误提示
   }
 
-  const result = calculateScore(scores, basicInfo);
+  const result = calculateAdvancedScore(scores, basicInfo);
 
   const radarData = Object.entries(result.dimensionScores).map(
     ([key, value]) => ({
@@ -190,6 +192,9 @@ export function AssessmentResult() {
           </div>
         </CardContent>
       </Card>
+
+      {/* 专业报告 */}
+      <ProfessionalReport result={result} />
     </div>
   );
 }

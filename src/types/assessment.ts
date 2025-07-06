@@ -136,8 +136,29 @@ export interface AssessmentResult {
     dimension: string;
     score: number;
     suggestion: string;
+    priority?: 'high' | 'medium' | 'low';
   }>;
   timestamp: number;
+  crossAnalysis?: {
+    correlationMatrix: Record<string, Record<string, number>>;
+    insights: string[];
+    riskFactors: string[];
+  };
+  industryComparison?: {
+    benchmark: {
+      salary: { min: number; max: number; average: number };
+      workIntensity: number;
+      growthPotential: number;
+      jobSecurity: number;
+      commonSkills: string[];
+      careerRisk: number;
+    };
+    cityCoefficient: {
+      salaryMultiplier: number;
+      livingCost: number;
+      opportunityIndex: number;
+    };
+  };
 }
 
 export interface HistoricalAssessment {
