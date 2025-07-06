@@ -5,9 +5,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
-import { AlertCircle, Download, FileText, TrendingUp, Target, Lightbulb } from 'lucide-react';
+import { Download, FileText, TrendingUp, Target, Lightbulb } from 'lucide-react';
 import { AssessmentResult, DIMENSIONS } from '@/types/assessment';
-import { INDUSTRY_BENCHMARKS } from '@/lib/advanced-assessment';
+import { INDUSTRY_BENCHMARKS, IndustryBenchmark } from '@/lib/advanced-assessment';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import {
@@ -22,19 +22,12 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
-  Tooltip,
-  LineChart,
-  Line,
-  PieChart,
-  Pie,
-  Cell
+  Tooltip
 } from 'recharts';
 
 interface ProfessionalReportProps {
   result: AssessmentResult;
 }
-
-const COLORS = ['#8884d8', '#82ca9d', '#ffc658', '#ff7c7c', '#8dd1e1'];
 
 export function ProfessionalReport({ result }: ProfessionalReportProps) {
   const [isGenerating, setIsGenerating] = useState(false);
@@ -396,7 +389,7 @@ export function ProfessionalReport({ result }: ProfessionalReportProps) {
 }
 
 // 辅助函数
-function getBenchmarkScore(dimensionId: string, benchmark: any): number {
+function getBenchmarkScore(dimensionId: string, benchmark: IndustryBenchmark): number {
   const mapping: Record<string, number> = {
     'time_investment': 10 - (benchmark.workIntensity || 7),
     'skill_match': benchmark.growthPotential || 7,
@@ -408,7 +401,7 @@ function getBenchmarkScore(dimensionId: string, benchmark: any): number {
   return mapping[dimensionId] || 7;
 }
 
-function getCategoryBenchmark(category: string, benchmark: any): number {
+function getCategoryBenchmark(category: string, benchmark: IndustryBenchmark): number {
   const mapping: Record<string, number> = {
     '付出': 10 - (benchmark.workIntensity || 7),
     '回报': 7,
@@ -444,10 +437,9 @@ function generateSWOTAnalysis(result: AssessmentResult) {
   });
 
   // 基于行业和经验生成机会和威胁
-  const industry = result.basicInfo.industry;
   const experience = result.basicInfo.experience;
 
-  if (industry === '互联网/IT') {
+  if (result.basicInfo.industry === '互联网/IT') {
     opportunities.push('行业发展迅速，技术更新带来新机遇');
     threats.push('技术迭代快，需要持续学习');
   }
@@ -469,7 +461,6 @@ function generateSWOTAnalysis(result: AssessmentResult) {
 
 function generateCareerPath(result: AssessmentResult) {
   const experience = result.basicInfo.experience;
-  const industry = result.basicInfo.industry;
   
   const paths = [];
   
