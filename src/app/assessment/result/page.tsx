@@ -27,6 +27,7 @@ import {
   CartesianGrid,
   Tooltip,
 } from 'recharts'
+import { DeveloperFooter } from '@/components/DeveloperFooter'
 
 export default function ResultPage() {
   const router = useRouter()
@@ -244,6 +245,9 @@ export default function ResultPage() {
           </div>
         </CardContent>
       </Card>
+      
+      {/* Developer Contact Section */}
+      <DeveloperFooter variant="detailed" className="mt-8" />
     </div>
   )
 }

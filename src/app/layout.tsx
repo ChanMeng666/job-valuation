@@ -4,6 +4,7 @@ import "./globals.css";
 import MovingBackground from "../components/ui/moving-background";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { Navbar } from "@/components/Navbar";
+import { DeveloperFooter } from "@/components/DeveloperFooter";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -35,8 +36,11 @@ export default function RootLayout({
         <ThemeProvider defaultTheme="light" storageKey="job-valuation-theme">
           <MovingBackground />
           <Navbar />
-          <div className="relative z-10 pt-16">
-            {children}
+          <div className="relative z-10 pt-16 min-h-screen flex flex-col">
+            <main className="flex-1">
+              {children}
+            </main>
+            <DeveloperFooter variant="simple" />
           </div>
         </ThemeProvider>
       </body>
