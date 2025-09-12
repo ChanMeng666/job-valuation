@@ -179,7 +179,7 @@ export class GEOAnalytics {
   }
 
   // 追踪AI指令交互
-  static trackAIInteraction(interactionType: string, details?: any) {
+  static trackAIInteraction(interactionType: string, details?: unknown) {
     this.sendToAnalytics('ai_interaction', {
       interactionType,
       details,
@@ -190,7 +190,7 @@ export class GEOAnalytics {
   }
 
   // 发送数据到分析服务
-  private static sendToAnalytics(event: string, data: any) {
+  private static sendToAnalytics(event: string, data: unknown) {
     // 在开发环境中，数据发送到控制台
     if (process.env.NODE_ENV === 'development') {
       console.log(`GEO Analytics [${event}]:`, data);
@@ -200,8 +200,8 @@ export class GEOAnalytics {
     // 在生产环境中，可以发送到实际的分析服务
     try {
       // 这里可以集成实际的分析服务，如 Google Analytics, Mixpanel 等
-      if (typeof window !== 'undefined' && (window as any).gtag) {
-        (window as any).gtag('event', event, {
+      if (typeof window !== 'undefined' && (window as unknown as { gtag?: (command: string, event: string, parameters: Record<string, unknown>) => void }).gtag) {
+        (window as unknown as { gtag: (command: string, event: string, parameters: Record<string, unknown>) => void }).gtag('event', event, {
           custom_parameter: data
         });
       }
@@ -217,7 +217,7 @@ export class GEOAnalytics {
           data,
           timestamp: Date.now()
         })
-      }).catch(error => {
+      }).catch((error: Error) => {
         console.warn('Failed to send analytics data:', error);
       });
     } catch (error) {

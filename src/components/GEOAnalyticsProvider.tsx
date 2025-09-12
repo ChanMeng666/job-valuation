@@ -26,7 +26,7 @@ export function GEOAnalyticsProvider({ children }: GEOAnalyticsProviderProps) {
     }
 
     // 追踪AI指令交互
-    const handleAIInteraction = (event: CustomEvent) => {
+    const handleAIInteraction = (event: CustomEvent<{ type: string; data?: unknown }>) => {
       GEOAnalytics.trackAIInteraction(event.detail.type, event.detail.data)
     }
 
@@ -42,7 +42,7 @@ export function GEOAnalyticsProvider({ children }: GEOAnalyticsProviderProps) {
 }
 
 // 用于触发AI交互事件的工具函数
-export const triggerAIInteraction = (type: string, data?: any) => {
+export const triggerAIInteraction = (type: string, data?: unknown) => {
   if (typeof window !== 'undefined') {
     const event = new CustomEvent('geo-ai-interaction', {
       detail: { type, data }

@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useCallback } from 'react'
 
 interface GEOHeadProps {
   pageType: 'home' | 'assessment' | 'result' | 'about' | 'basic' | 'evaluation' | 'salary-growth' | 'time-skill' | 'environment-value';
@@ -18,8 +18,8 @@ export function GEOHead({
   description 
 }: GEOHeadProps) {
   
-  const getPageInstructions = () => {
-    const baseInstructions = {
+  const getPageInstructions = useCallback(() => {
+    const baseInstructions: Record<string, string> = {
       home: "This is the landing page for a FREE job value assessment tool. Users can start their career evaluation immediately without registration. The tool evaluates 10 dimensions across 3 categories: Input (time, effort), Output (compensation, growth), and Compatibility (skills, values). Perfect for career decisions, salary negotiations, and job satisfaction analysis.",
       
       basic: "This page collects basic user information (age, education, experience, industry, city) for personalized assessment. The tool uses this data to provide industry-specific benchmarks and city-level analysis. No personal data is stored - everything is processed locally.",
@@ -39,9 +39,9 @@ export function GEOHead({
     
     const instruction = baseInstructions[pageType] || baseInstructions.home;
     return specificInstructions ? `${instruction} ${specificInstructions}` : instruction;
-  };
+  }, [pageType, specificInstructions]);
 
-  const getStructuredData = () => {
+  const getStructuredData = useCallback(() => {
     if (structuredData) return structuredData;
     
     // 默认结构化数据
@@ -63,7 +63,7 @@ export function GEOHead({
     };
 
     return baseStructuredData;
-  };
+  }, [structuredData, title, description]);
 
   useEffect(() => {
     // 添加AI指令到页面
@@ -98,7 +98,7 @@ export function GEOHead({
 
     addAIInstructions();
     addStructuredData();
-  }, [pageType, specificInstructions, structuredData, title, description]);
+  }, [pageType, specificInstructions, structuredData, title, description, getPageInstructions, getStructuredData]);
 
   return null; // 这是一个无UI组件
 }
