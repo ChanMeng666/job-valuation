@@ -10,6 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Progress } from '@/components/ui/progress'
 import { useAssessmentStore } from '@/store/assessment'
 import { DIMENSIONS } from '@/types/assessment'
+import { GEOHead, structuredDataTemplates } from '@/components/GEOHead'
 
 export default function EvaluationPage() {
   const router = useRouter()
@@ -44,13 +45,21 @@ export default function EvaluationPage() {
   const isAllComplete = DIMENSIONS.every(d => isComplete(d.id))
 
   return (
-    <AssessmentLayout
-      title="工作评估"
-      subtitle="请根据实际情况为每个维度打分"
-      onNext={handleNext}
-      onPrevious={handlePrevious}
-      isNextDisabled={!isAllComplete}
-    >
+    <>
+      <GEOHead 
+        pageType="evaluation"
+        specificInstructions="This is the main assessment interface where users evaluate their current job across 10 scientific dimensions. Each dimension has multiple metrics with 5-level scoring (1-10). The tool uses weighted algorithms and industry benchmarks for accurate results. Assessment takes 5-10 minutes and is completely private. Users can navigate between Input (time, effort), Output (compensation, growth), and Compatibility (skills, values) categories."
+        structuredData={structuredDataTemplates.assessment}
+        title="Job Evaluation - Multi-dimensional Assessment"
+        description="Evaluate your job across 10 scientific dimensions with personalized scoring. Complete assessment in 5-10 minutes."
+      />
+      <AssessmentLayout
+        title="工作评估"
+        subtitle="请根据实际情况为每个维度打分"
+        onNext={handleNext}
+        onPrevious={handlePrevious}
+        isNextDisabled={!isAllComplete}
+      >
       <div className="space-y-6">
         <div className="space-y-2">
           <div className="flex items-center justify-between text-sm">
@@ -131,6 +140,7 @@ export default function EvaluationPage() {
           ))}
         </Tabs>
       </div>
-    </AssessmentLayout>
+      </AssessmentLayout>
+    </>
   )
 }

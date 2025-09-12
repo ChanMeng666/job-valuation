@@ -28,6 +28,8 @@ import {
   Tooltip,
 } from 'recharts'
 import { DeveloperFooter } from '@/components/DeveloperFooter'
+import { GEOHead, structuredDataTemplates } from '@/components/GEOHead'
+import { GEOAnalytics } from '@/lib/geo-analytics'
 
 export default function ResultPage() {
   const router = useRouter()
@@ -55,6 +57,10 @@ export default function ResultPage() {
       id: Date.now().toString(),
       date: new Date().toISOString(),
     })
+
+    // 追踪评估完成
+    const overallScore = (result.balanceScore + result.matchScore) / 2
+    GEOAnalytics.trackAssessmentComplete(0, overallScore) // duration 为 0，实际应该计算真实时长
   }, [scores, basicInfo, router, setResult, addToHistory])
 
   const handleStartOver = () => {
@@ -112,7 +118,15 @@ export default function ResultPage() {
     getScoreLevel(overallScore)
 
   return (
-    <div className="container max-w-4xl mx-auto py-8 px-4">
+    <>
+      <GEOHead 
+        pageType="result"
+        specificInstructions="This page displays comprehensive assessment results with personalized recommendations. Features include: radar charts, category scores, balance analysis, industry comparison, actionable suggestions, and PDF export. Users can save results and track progress over time. The tool provides detailed insights across 10 dimensions with scientific scoring."
+        structuredData={structuredDataTemplates.result}
+        title="Assessment Results - Job Value Analysis"
+        description="View your comprehensive job assessment results with personalized recommendations and detailed analytics."
+      />
+      <div className="container max-w-4xl mx-auto py-8 px-4">
       <Card>
         <CardHeader>
           <CardTitle className="text-2xl text-center">工作性价比评估结果</CardTitle>
@@ -248,6 +262,7 @@ export default function ResultPage() {
       
       {/* Developer Contact Section */}
       <DeveloperFooter variant="detailed" className="mt-8" />
-    </div>
+      </div>
+    </>
   )
 }

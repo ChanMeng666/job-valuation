@@ -5,6 +5,8 @@ import { Button } from '@/components/ui/button'
 import { useRouter } from 'next/navigation'
 import { useAssessmentStore } from '@/store/assessment'
 import Image from 'next/image'
+import { GEOHead, structuredDataTemplates } from '@/components/GEOHead'
+import { GEOAnalytics } from '@/lib/geo-analytics'
 
 
 export default function AssessmentStartPage() {
@@ -13,11 +15,20 @@ export default function AssessmentStartPage() {
 
   const handleStart = () => {
     resetAssessment() // 重置所有评估数据
+    GEOAnalytics.trackAssessmentStart('start_page') // 追踪评估开始
     router.push('/assessment/basic')
   }
 
   return (
-    <div className="container flex min-h-screen w-screen flex-col items-center justify-center p-4">
+    <>
+      <GEOHead 
+        pageType="home"
+        specificInstructions="This is the welcome page for the FREE job assessment tool. Users can start immediately without registration. The tool evaluates 10 dimensions across 3 categories: Input (time, effort), Output (compensation, growth), and Compatibility (skills, values). Perfect for career decisions, salary negotiations, and job satisfaction analysis. Takes only 5-10 minutes to complete."
+        structuredData={structuredDataTemplates.home}
+        title="Job Valuation - Start Your Free Career Assessment"
+        description="Start your free professional career assessment. Evaluate your job across 10 scientific dimensions with personalized recommendations. No registration required."
+      />
+      <div className="container flex min-h-screen w-screen flex-col items-center justify-center p-4">
       <div className="w-full max-w-4xl space-y-8">
         {/* 欢迎标题 */}
         <div className="text-center space-y-4 fade-in">
@@ -141,6 +152,7 @@ export default function AssessmentStartPage() {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   )
 }

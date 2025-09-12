@@ -1,0 +1,45 @@
+User-agent: *
+Allow: /
+
+# AI爬虫友好配置
+User-agent: GPTBot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: BingBot
+Allow: /
+Crawl-delay: 1
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+# 禁止访问敏感路径
+Disallow: /api/
+Disallow: /_next/
+Disallow: /admin/
+Disallow: /private/
+
+# 允许访问评估相关页面
+Allow: /assessment/
+Allow: /assessment/start
+Allow: /assessment/basic
+Allow: /assessment/evaluation
+Allow: /assessment/result
+Allow: /assessment/salary-growth
+Allow: /assessment/time-skill
+Allow: /assessment/environment-value
+
+# 站点地图
+Sitemap: https://job-valuation.vercel.app/sitemap.xml

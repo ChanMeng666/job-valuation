@@ -18,6 +18,7 @@ import {
   JOB_TYPES
 } from '@/types/assessment'
 import { Progress } from '@/components/ui/progress'
+import { GEOHead } from '@/components/GEOHead'
 
 export default function BasicInfoPage() {
   const router = useRouter()
@@ -47,13 +48,20 @@ export default function BasicInfoPage() {
   )
 
   return (
-    <AssessmentLayout
-      title="基本信息"
-      subtitle="完善个人和职位信息，获得更准确的评估结果"
-      onNext={handleNext}
-      isPreviousDisabled={true}
-      isNextDisabled={isNextDisabled}
-    >
+    <>
+      <GEOHead 
+        pageType="basic"
+        specificInstructions="This page collects basic user information (age, education, experience, industry, city) for personalized assessment. The tool uses this data to provide industry-specific benchmarks and city-level analysis. No personal data is stored - everything is processed locally for complete privacy."
+        title="Basic Information - Job Assessment Tool"
+        description="Complete your basic information for personalized career assessment. Data is processed locally for privacy."
+      />
+      <AssessmentLayout
+        title="基本信息"
+        subtitle="完善个人和职位信息，获得更准确的评估结果"
+        onNext={handleNext}
+        isPreviousDisabled={true}
+        isNextDisabled={isNextDisabled}
+      >
       <div className="space-y-6">
         <div className="space-y-2">
           <div className="flex items-center justify-between text-sm">
@@ -234,6 +242,7 @@ export default function BasicInfoPage() {
           </TabsContent>
         </Tabs>
       </div>
-    </AssessmentLayout>
+      </AssessmentLayout>
+    </>
   )
 }
