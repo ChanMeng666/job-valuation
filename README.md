@@ -19,7 +19,7 @@ One-click **FREE** assessment of your career satisfaction and job value.
 <!-- SHIELD GROUP -->
 
 [![][github-release-shield]][github-release-link]
-[![][vercel-shield]][vercel-link]
+[![][cloudflare-shield]][cloudflare-link]
 [![][github-action-test-shield]][github-action-test-link]<br/>
 [![][github-contributors-shield]][github-contributors-link]
 [![][github-forks-shield]][github-forks-link]
@@ -97,6 +97,7 @@ https://github.com/user-attachments/assets/a350e2cf-daf8-4d58-9cdd-1403e89d10fb
  <img src="https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB"/>
  <img src="https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white"/>
  <img src="https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwindcss&logoColor=white"/>
+ <img src="https://img.shields.io/badge/Cloudflare%20Workers-%23F38020.svg?style=for-the-badge&logo=cloudflare&logoColor=white"/>
  <img src="https://img.shields.io/badge/zustand-%23FF6B35.svg?style=for-the-badge&logo=react&logoColor=white"/>
  <img src="https://img.shields.io/badge/recharts-%23FF6B6B.svg?style=for-the-badge&logo=chartdotjs&logoColor=white"/>
 
@@ -259,6 +260,10 @@ Beyond core assessment capabilities, the platform includes:
         <br>Tailwind CSS
       </td>
       <td align="center" width="96">
+        <img src="https://cdn.simpleicons.org/cloudflare" width="48" height="48" alt="Cloudflare" />
+        <br>CF Workers
+      </td>
+      <td align="center" width="96">
         <img src="https://cdn.simpleicons.org/zod" width="48" height="48" alt="Zod" />
         <br>Zod Validation
       </td>
@@ -275,7 +280,7 @@ Beyond core assessment capabilities, the platform includes:
 </div>
 
 **Frontend Stack:**
-- **Framework**: Next.js 15 with App Router architecture
+- **Framework**: Next.js 15 with App Router, deployed on Cloudflare Workers
 - **Language**: TypeScript for comprehensive type safety
 - **Styling**: Tailwind CSS with shadcn/ui components
 - **State Management**: Zustand with persistence middleware
@@ -289,8 +294,13 @@ Beyond core assessment capabilities, the platform includes:
 - **Responsive**: Mobile-first responsive design
 - **Accessibility**: WCAG compliant components
 
+**Deployment & Infrastructure:**
+- **Hosting**: Cloudflare Workers (edge runtime, 200+ global locations)
+- **Adapter**: @opennextjs/cloudflare for Next.js 15+ compatibility
+- **CLI**: Wrangler for build, preview, and deploy
+
 **Development Tools:**
-- **Build System**: Next.js optimized bundling
+- **Build System**: Next.js optimized bundling + OpenNext adapter
 - **Code Quality**: ESLint + Prettier configuration
 - **Type Checking**: Strict TypeScript compilation
 - **Hot Reload**: Fast refresh development experience
@@ -307,22 +317,27 @@ Beyond core assessment capabilities, the platform includes:
 
 ```mermaid
 graph TB
+    subgraph "Cloudflare Edge Network"
+        CF[Cloudflare Workers] --> SA[Static Assets CDN]
+    end
+
     subgraph "Frontend Application"
-        A[Next.js App Router] --> B[React Components]
+        CF --> A[Next.js 15 App Router]
+        A --> B[React Components]
         B --> C[Zustand Store]
         C --> D[Assessment Engine]
         D --> E[Visualization Layer]
     end
     
-    subgraph "State Management"
+    subgraph "Client-Side State"
         F[Assessment State]
         G[User Progress]
         H[Results History]
-        I[Persistence Layer]
+        I["localStorage Persistence"]
     end
     
     subgraph "Assessment Engine"
-        J[Scoring Algorithm]
+        J[Weighted Scoring Algorithm]
         K[Recommendation System]
         L[Analytics Calculator]
     end
@@ -336,10 +351,10 @@ graph TB
     D --> L
     
     subgraph "UI Components"
-        M[Assessment Forms]
+        M[Multi-step Assessment Forms]
         N[Progress Indicators]
         O[Results Dashboard]
-        P[Charts & Graphs]
+        P[Recharts Visualizations]
     end
     
     B --> M
@@ -372,27 +387,45 @@ sequenceDiagram
 ### Component Structure
 
 ```
-src/
-├── app/                          # Next.js App Router
-│   ├── assessment/              # Assessment pages
-│   │   ├── start/              # Welcome & introduction
-│   │   ├── basic/              # Basic information
-│   │   ├── evaluation/         # Main assessment
-│   │   └── result/             # Results display
-│   ├── globals.css             # Global styles
-│   └── layout.tsx              # Root layout
-├── components/                  # Reusable components
-│   ├── ui/                     # shadcn/ui components
-│   ├── forms/                  # Form components
-│   ├── AssessmentForm.tsx      # Main assessment logic
-│   └── AssessmentResult.tsx    # Results visualization
-├── store/                      # State management
-│   ├── assessment.ts           # Assessment store
-│   └── store.ts               # Store configuration
-├── types/                      # TypeScript definitions
-│   └── assessment.ts           # Assessment types
-└── lib/                       # Utility functions
-    └── utils.ts               # Helper functions
+.
+├── wrangler.jsonc                # Cloudflare Workers configuration
+├── open-next.config.ts           # OpenNext adapter configuration
+├── next.config.ts                # Next.js config (output: standalone)
+├── package.json                  # Scripts: dev, build, build:worker, deploy
+├── src/
+│   ├── app/                      # Next.js App Router
+│   │   ├── assessment/           # Assessment pages
+│   │   │   ├── start/            # Welcome & introduction
+│   │   │   ├── basic/            # Basic information collection
+│   │   │   ├── time-skill/       # Time & skill evaluation
+│   │   │   ├── salary-growth/    # Salary growth assessment
+│   │   │   ├── environment-value/# Work environment evaluation
+│   │   │   ├── evaluation/       # Main assessment interface
+│   │   │   └── result/           # Results dashboard
+│   │   ├── globals.css           # Global styles
+│   │   └── layout.tsx            # Root layout with metadata
+│   ├── components/               # Reusable components
+│   │   ├── ui/                   # shadcn/ui components
+│   │   ├── forms/                # Form components
+│   │   ├── AssessmentForm.tsx    # Main assessment logic
+│   │   ├── AssessmentResult.tsx  # Results visualization
+│   │   ├── ProfessionalReport.tsx# PDF report generation
+│   │   ├── GEOHead.tsx           # SEO structured data
+│   │   └── GEOAnalyticsProvider.tsx # Analytics tracking
+│   ├── store/                    # Zustand state management
+│   │   ├── assessment.ts         # Assessment store with persistence
+│   │   └── store.ts              # Store configuration
+│   ├── types/                    # TypeScript definitions
+│   │   └── assessment.ts         # Assessment types & dimensions
+│   └── lib/                      # Utility functions
+│       ├── utils.ts              # Helper functions
+│       ├── advanced-assessment.ts# Assessment algorithms
+│       └── geo-analytics.ts      # GEO analytics library
+└── public/                       # Static assets
+    ├── logo.svg, chan_logo.svg   # Brand assets
+    ├── robots.txt                # Crawler configuration
+    ├── sitemap.xml               # SEO sitemap
+    └── llms.txt                  # AI crawler metadata
 ```
 
 ## ⚡️ Performance
@@ -409,10 +442,11 @@ src/
 - 🔄 **State Updates**: Instant UI response
 
 **Performance Optimizations:**
+- 🌍 **Edge Deployment**: Cloudflare Workers across 200+ global locations
 - 🎯 **Code Splitting**: Automatic route-based splitting
 - 📦 **Bundle Optimization**: Tree-shaking and minification
 - 🖼️ **Image Optimization**: Next.js Image component
-- 🔄 **Caching Strategy**: Efficient state persistence
+- 🔄 **Caching Strategy**: Efficient state persistence via localStorage
 
 ## 🚀 Getting Started
 
@@ -465,11 +499,17 @@ The application runs entirely client-side and doesn't require additional environ
 # Start with hot reload
 npm run dev
 
-# Build for production
+# Build for production (Next.js)
 npm run build
 
-# Start production server
-npm run start
+# Build for Cloudflare Workers
+npm run build:worker
+
+# Preview in local Workers environment
+npm run preview
+
+# Deploy to Cloudflare Workers
+npm run deploy
 
 # Run linting
 npm run lint
@@ -477,31 +517,61 @@ npm run lint
 
 ## 🛳 Deployment
 
-### `A` Cloud Deployment
+### Deployment Architecture
 
-**Vercel (Recommended)**
+```mermaid
+graph LR
+    subgraph "Development"
+        A[Source Code] --> B[next build]
+    end
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FChanMeng666%2Fjob-valuation)
+    subgraph "Build Pipeline"
+        B --> C[OpenNext Adapter]
+        C --> D[".open-next/worker.js"]
+        C --> E[".open-next/assets/"]
+    end
 
-**Manual Deployment:**
+    subgraph "Cloudflare Edge Network"
+        D --> F[Cloudflare Workers]
+        E --> G[Static Assets CDN]
+        F --> H["Global Edge<br/>200+ locations"]
+        G --> H
+    end
 
-```bash
-# Install Vercel CLI
-npm i -g vercel
-
-# Deploy
-vercel --prod
+    H --> I[End Users]
 ```
 
-**Other Platforms:**
+### `A` Cloudflare Workers Deployment (Recommended)
 
-<div align="center">
+This project is deployed on **Cloudflare Workers** via [`@opennextjs/cloudflare`](https://opennext.js.org/cloudflare), which provides full Next.js 15+ support on the Cloudflare edge network.
 
-|           Deploy with Netlify            |                     Deploy with Railway                      |
-| :-------------------------------------: | :---------------------------------------------------------: |
-| [![][deploy-netlify-button]][deploy-netlify-link] | [![][deploy-railway-button]][deploy-railway-link] |
+**Prerequisites:**
+- [Node.js](https://nodejs.org/) 18.0+
+- A [Cloudflare account](https://dash.cloudflare.com/sign-up)
 
-</div>
+**Deploy:**
+
+```bash
+# Install dependencies
+npm install
+
+# Login to Cloudflare
+npx wrangler login
+
+# Build & deploy
+npm run deploy
+```
+
+**Available Scripts:**
+
+| Script | Command | Description |
+|--------|---------|-------------|
+| `dev` | `npm run dev` | Local Next.js dev server with hot reload |
+| `build` | `npm run build` | Standard Next.js production build |
+| `build:worker` | `npm run build:worker` | Build for Cloudflare Workers via OpenNext |
+| `preview` | `npm run preview` | Preview locally in Workers environment |
+| `deploy` | `npm run deploy` | Build & deploy to Cloudflare Workers |
+| `lint` | `npm run lint` | ESLint code analysis |
 
 ### `B` Docker Deployment
 
@@ -513,7 +583,17 @@ docker build -t job-valuation .
 docker run -p 3000:3000 job-valuation
 ```
 
-### `C` Environment Variables
+### `C` Other Platforms
+
+<div align="center">
+
+|           Deploy with Netlify            |                     Deploy with Railway                      |
+| :-------------------------------------: | :---------------------------------------------------------: |
+| [![][deploy-netlify-button]][deploy-netlify-link] | [![][deploy-railway-button]][deploy-railway-link] |
+
+</div>
+
+### `D` Environment Variables
 
 > [!NOTE]
 > This application runs entirely client-side and doesn't require server-side environment variables.
@@ -597,8 +677,10 @@ npm run dev
 ```bash
 # Development
 npm run dev          # Start dev server with hot reload
-npm run build        # Production build
-npm run start        # Start production server
+npm run build        # Standard Next.js production build
+npm run build:worker # Build for Cloudflare Workers
+npm run preview      # Preview in local Workers environment
+npm run deploy       # Build & deploy to Cloudflare Workers
 npm run lint         # ESLint code analysis
 ```
 
@@ -730,7 +812,7 @@ This project is licensed under the Apache-2.0 License - see the [LICENSE](LICENS
 [back-to-top]: https://img.shields.io/badge/-BACK_TO_TOP-151515?style=flat-square
 
 <!-- Project Links -->
-[demo-link]: https://job-valuation.vercel.app/assessment/start
+[demo-link]: https://job-valuation.chanmeng-dev.workers.dev/assessment/start
 [docs-link]: https://github.com/ChanMeng666/job-valuation#readme
 [docs-assessment]: https://github.com/ChanMeng666/job-valuation#-comprehensive-assessment-framework
 [docs-scoring]: https://github.com/ChanMeng666/job-valuation#-scientific-scoring-system
@@ -749,8 +831,8 @@ This project is licensed under the Apache-2.0 License - see the [LICENSE](LICENS
 
 <!-- Shield Badges -->
 [github-release-shield]: https://img.shields.io/github/v/release/ChanMeng666/job-valuation?color=369eff&labelColor=black&logo=github&style=flat-square
-[vercel-shield]: https://img.shields.io/badge/vercel-online-55b467?labelColor=black&logo=vercel&style=flat-square
-[vercel-link]: https://job-valuation.vercel.app
+[cloudflare-shield]: https://img.shields.io/badge/Cloudflare%20Workers-online-F38020?labelColor=black&logo=cloudflare&style=flat-square
+[cloudflare-link]: https://job-valuation.chanmeng-dev.workers.dev
 [github-action-test-shield]: https://img.shields.io/github/actions/workflow/status/ChanMeng666/job-valuation/test.yml?label=test&labelColor=black&logo=githubactions&logoColor=white&style=flat-square
 [github-action-test-link]: https://github.com/ChanMeng666/job-valuation/actions
 [github-contributors-shield]: https://img.shields.io/github/contributors/ChanMeng666/job-valuation?color=c4f042&labelColor=black&style=flat-square
@@ -762,7 +844,7 @@ This project is licensed under the Apache-2.0 License - see the [LICENSE](LICENS
 [pr-welcome-shield]: https://img.shields.io/badge/🤝_PRs_welcome-%E2%86%92-ffcb47?labelColor=black&style=for-the-badge
 
 <!-- Badge Variants -->
-[demo-shield-badge]: https://img.shields.io/badge/TRY%20DEMO-ONLINE-55b467?labelColor=black&logo=vercel&style=for-the-badge
+[demo-shield-badge]: https://img.shields.io/badge/TRY%20DEMO-ONLINE-F38020?labelColor=black&logo=cloudflare&style=for-the-badge
 [github-shield-badge]: https://img.shields.io/badge/GITHUB-STAR%20US-ffcb47?labelColor=black&logo=github&style=for-the-badge
 
 <!-- Social Share Links -->

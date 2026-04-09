@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://job-valuation.vercel.app",
+    url: "https://job-valuation.chanmeng-dev.workers.dev",
     title: "Job Valuation - Free Career Assessment Tool",
     description: "Free professional career assessment tool with scientific evaluation across 10 dimensions",
     siteName: "Job Valuation",

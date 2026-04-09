@@ -42,4 +42,4 @@ Allow: /assessment/time-skill
 Allow: /assessment/environment-value
 
 # 站点地图
-Sitemap: https://job-valuation.vercel.app/sitemap.xml
+Sitemap: https://job-valuation.chanmeng-dev.workers.dev/sitemap.xml

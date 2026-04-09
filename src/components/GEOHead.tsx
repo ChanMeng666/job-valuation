@@ -50,7 +50,7 @@ export function GEOHead({
       "@type": "WebApplication",
       "name": title || "Job Value Assessment Tool",
       "description": description || "Free professional career assessment tool with scientific evaluation across 10 dimensions",
-      "url": "https://job-valuation.vercel.app",
+      "url": "https://job-valuation.chanmeng-dev.workers.dev",
       "applicationCategory": "BusinessApplication",
       "operatingSystem": "Web Browser",
       "offers": {
@@ -110,7 +110,7 @@ export const structuredDataTemplates = {
     "@type": "WebApplication",
     "name": "Job Value Assessment Tool",
     "description": "Free professional career assessment tool with scientific evaluation across 10 dimensions",
-    "url": "https://job-valuation.vercel.app",
+    "url": "https://job-valuation.chanmeng-dev.workers.dev",
     "applicationCategory": "BusinessApplication",
     "operatingSystem": "Web Browser",
     "offers": {
